@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Media Manager</title>
+  <link rel="preconnect" href="https://api.fontshare.com"/>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=general-sans@400,500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admin.css"/>
+</head>
+<body>
+
+  <header class="adm-header">
+    <div class="adm-header-inner">
+      <div class="adm-brand">
+        <span class="adm-logo">DN</span>
+        <div>
+          <div class="adm-title">Media Manager</div>
+          <div class="adm-sub">Portfolio Admin — Local only</div>
+        </div>
+      </div>
+      <div class="adm-actions">
+        <div class="adm-status" id="statusMsg">Loading media...</div>
+        <a href="/" target="_blank" class="adm-btn-ghost">View Portfolio ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="adm-main">
+
+    <!-- ── SECTION: HERO MEDIA ── -->
+    <section class="adm-section">
+      <div class="adm-section-head">
+        <span class="adm-section-num">01</span>
+        <h2>Hero Card Media</h2>
+        <p>Flip card front (photo) + back (video) in the hero section</p>
+      </div>
+      <div class="adm-grid adm-grid--2">
+
+        <div class="upload-slot" data-slot="profile" data-accept="image/*" data-label="Profile Photo">
+          <div class="slot-preview" id="preview-profile">
+            <div class="slot-empty">
+              <div class="slot-icon">🖼</div>
+              <div class="slot-empty-text">No photo yet</div>
+            </div>
+          </div>
+          <div class="slot-info">
+            <div class="slot-name">Profile / Hero Photo</div>
+            <div class="slot-hint">Front face of flip card · JPG, PNG, WebP</div>
+          </div>
+          <div class="slot-drop-zone" id="drop-profile">
+            <input type="file" class="file-input" accept="image/*" id="input-profile"/>
+            <div class="drop-label">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>Drop photo here or <label for="input-profile" class="drop-browse">browse</label></span>
+            </div>
+            <div class="drop-progress" id="prog-profile">
+              <div class="drop-progress-bar"></div>
+            </div>
+          </div>
+          <div class="slot-footer">
+            <span class="slot-filename" id="fname-profile">—</span>
+            <button class="slot-delete" id="del-profile" onclick="deleteSlot('profile')" style="display:none">Remove</button>
+          </div>
+        </div>
+
+        <div class="upload-slot" data-slot="flipcard" data-accept="video/*" data-label="Flip Card Video">
+          <div class="slot-preview" id="preview-flipcard">
+            <div class="slot-empty">
+              <div class="slot-icon">🎬</div>
+              <div class="slot-empty-text">No video yet</div>
+            </div>
+          </div>
+          <div class="slot-info">
+            <div class="slot-name">Flip Card Video</div>
+            <div class="slot-hint">Back face of flip card · MP4, WebM</div>
+          </div>
+          <div class="slot-drop-zone" id="drop-flipcard">
+            <input type="file" class="file-input" accept="video/*" id="input-flipcard"/>
+            <div class="drop-label">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>Drop video here or <label for="input-flipcard" class="drop-browse">browse</label></span>
+            </div>
+            <div class="drop-progress" id="prog-flipcard">
+              <div class="drop-progress-bar"></div>
+            </div>
+          </div>
+          <div class="slot-footer">
+            <span class="slot-filename" id="fname-flipcard">—</span>
+            <button class="slot-delete" id="del-flipcard" onclick="deleteSlot('flipcard')" style="display:none">Remove</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SECTION: SHOWREEL ── -->
+    <section class="adm-section">
+      <div class="adm-section-head">
+        <span class="adm-section-num">02</span>
+        <h2>Showreel Video</h2>
+        <p>Main motion reel — shown in a dedicated section between Hero and Work</p>
+      </div>
+      <div class="adm-grid adm-grid--1">
+
+        <div class="upload-slot upload-slot--wide" data-slot="showreel" data-accept="video/*" data-label="Showreel">
+          <div class="slot-preview slot-preview--wide" id="preview-showreel">
+            <div class="slot-empty">
+              <div class="slot-icon">🎥</div>
+              <div class="slot-empty-text">No showreel yet</div>
+            </div>
+          </div>
+          <div class="slot-info">
+            <div class="slot-name">Showreel / Motion Reel</div>
+            <div class="slot-hint">MP4 or WebM — recommended max 200MB · 16:9 ratio</div>
+          </div>
+          <div class="slot-drop-zone" id="drop-showreel">
+            <input type="file" class="file-input" accept="video/*" id="input-showreel"/>
+            <div class="drop-label">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>Drop video here or <label for="input-showreel" class="drop-browse">browse</label></span>
+            </div>
+            <div class="drop-progress" id="prog-showreel">
+              <div class="drop-progress-bar"></div>
+            </div>
+          </div>
+          <div class="slot-footer">
+            <span class="slot-filename" id="fname-showreel">—</span>
+            <button class="slot-delete" id="del-showreel" onclick="deleteSlot('showreel')" style="display:none">Remove</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SECTION: PROJECT THUMBNAILS ── -->
+    <section class="adm-section">
+      <div class="adm-section-head">
+        <span class="adm-section-num">03</span>
+        <h2>Project Thumbnails</h2>
+        <p>Images shown on hover preview and in the work section · JPG, PNG, WebP</p>
+      </div>
+      <div class="adm-grid adm-grid--3">
+
+        <div class="upload-slot" data-slot="project-1" data-accept="image/*" data-label="Project 1">
+          <div class="slot-preview" id="preview-project-1">
+            <div class="slot-empty"><div class="slot-proj-num">01</div><div class="slot-empty-text">Brand Animation Reel</div></div>
+          </div>
+          <div class="slot-info"><div class="slot-name">Project 01 — Motion Graphics</div><div class="slot-hint">Brand Animation Reel</div></div>
+          <div class="slot-drop-zone" id="drop-project-1">
+            <input type="file" class="file-input" accept="image/*" id="input-project-1"/>
+            <div class="drop-label"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Drop or <label for="input-project-1" class="drop-browse">browse</label></span></div>
+            <div class="drop-progress" id="prog-project-1"><div class="drop-progress-bar"></div></div>
+          </div>
+          <div class="slot-footer"><span class="slot-filename" id="fname-project-1">—</span><button class="slot-delete" id="del-project-1" onclick="deleteSlot('project-1')" style="display:none">Remove</button></div>
+        </div>
+
+        <div class="upload-slot" data-slot="project-2" data-accept="image/*" data-label="Project 2">
+          <div class="slot-preview" id="preview-project-2">
+            <div class="slot-empty"><div class="slot-proj-num">02</div><div class="slot-empty-text">3D Visual Identity</div></div>
+          </div>
+          <div class="slot-info"><div class="slot-name">Project 02 — 3D Design</div><div class="slot-hint">3D Visual Identity System</div></div>
+          <div class="slot-drop-zone" id="drop-project-2">
+            <input type="file" class="file-input" accept="image/*" id="input-project-2"/>
+            <div class="drop-label"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Drop or <label for="input-project-2" class="drop-browse">browse</label></span></div>
+            <div class="drop-progress" id="prog-project-2"><div class="drop-progress-bar"></div></div>
+          </div>
+          <div class="slot-footer"><span class="slot-filename" id="fname-project-2">—</span><button class="slot-delete" id="del-project-2" onclick="deleteSlot('project-2')" style="display:none">Remove</button></div>
+        </div>
+
+        <div class="upload-slot" data-slot="project-3" data-accept="image/*" data-label="Project 3">
+          <div class="slot-preview" id="preview-project-3">
+            <div class="slot-empty"><div class="slot-proj-num">03</div><div class="slot-empty-text">Luxury Brand Identity</div></div>
+          </div>
+          <div class="slot-info"><div class="slot-name">Project 03 — Branding</div><div class="slot-hint">Luxury Brand Identity</div></div>
+          <div class="slot-drop-zone" id="drop-project-3">
+            <input type="file" class="file-input" accept="image/*" id="input-project-3"/>
+            <div class="drop-label"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Drop or <label for="input-project-3" class="drop-browse">browse</label></span></div>
+            <div class="drop-progress" id="prog-project-3"><div class="drop-progress-bar"></div></div>
+          </div>
+          <div class="slot-footer"><span class="slot-filename" id="fname-project-3">—</span><button class="slot-delete" id="del-project-3" onclick="deleteSlot('project-3')" style="display:none">Remove</button></div>
+        </div>
+
+        <div class="upload-slot" data-slot="project-4" data-accept="image/*" data-label="Project 4">
+          <div class="slot-preview" id="preview-project-4">
+            <div class="slot-empty"><div class="slot-proj-num">04</div><div class="slot-empty-text">Web Interface Design</div></div>
+          </div>
+          <div class="slot-info"><div class="slot-name">Project 04 — UX/UI</div><div class="slot-hint">Hospitality Web Interface</div></div>
+          <div class="slot-drop-zone" id="drop-project-4">
+            <input type="file" class="file-input" accept="image/*" id="input-project-4"/>
+            <div class="drop-label"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Drop or <label for="input-project-4" class="drop-browse">browse</label></span></div>
+            <div class="drop-progress" id="prog-project-4"><div class="drop-progress-bar"></div></div>
+          </div>
+          <div class="slot-footer"><span class="slot-filename" id="fname-project-4">—</span><button class="slot-delete" id="del-project-4" onclick="deleteSlot('project-4')" style="display:none">Remove</button></div>
+        </div>
+
+        <div class="upload-slot" data-slot="project-5" data-accept="image/*" data-label="Project 5">
+          <div class="slot-preview" id="preview-project-5">
+            <div class="slot-empty"><div class="slot-proj-num">05</div><div class="slot-empty-text">Hotel Promotional Film</div></div>
+          </div>
+          <div class="slot-info"><div class="slot-name">Project 05 — Video</div><div class="slot-hint">Hotel Promotional Film</div></div>
+          <div class="slot-drop-zone" id="drop-project-5">
+            <input type="file" class="file-input" accept="image/*" id="input-project-5"/>
+            <div class="drop-label"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Drop or <label for="input-project-5" class="drop-browse">browse</label></span></div>
+            <div class="drop-progress" id="prog-project-5"><div class="drop-progress-bar"></div></div>
+          </div>
+          <div class="slot-footer"><span class="slot-filename" id="fname-project-5">—</span><button class="slot-delete" id="del-project-5" onclick="deleteSlot('project-5')" style="display:none">Remove</button></div>
+        </div>
+
+        <div class="upload-slot" data-slot="project-6" data-accept="image/*" data-label="Project 6">
+          <div class="slot-preview" id="preview-project-6">
+            <div class="slot-empty"><div class="slot-proj-num">06</div><div class="slot-empty-text">Facebook Ad Campaign</div></div>
+          </div>
+          <div class="slot-info"><div class="slot-name">Project 06 — Social</div><div class="slot-hint">Facebook Ad Campaign Series</div></div>
+          <div class="slot-drop-zone" id="drop-project-6">
+            <input type="file" class="file-input" accept="image/*" id="input-project-6"/>
+            <div class="drop-label"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M5 8l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Drop or <label for="input-project-6" class="drop-browse">browse</label></span></div>
+            <div class="drop-progress" id="prog-project-6"><div class="drop-progress-bar"></div></div>
+          </div>
+          <div class="slot-footer"><span class="slot-filename" id="fname-project-6">—</span><button class="slot-delete" id="del-project-6" onclick="deleteSlot('project-6')" style="display:none">Remove</button></div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

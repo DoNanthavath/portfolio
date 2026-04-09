@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nanthavath Senthavy — Motion Graphics Designer</title>
+    <meta name="description" content="Motion graphics designer & creative professional based in Vientiane, Laos. Specializing in 3D, brand identity, and visual storytelling.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        surface: {
+                            0: '#fafafa', 1: '#f5f5f5', 2: '#f0f0f0',
+                            3: '#ebebeb', 4: '#e5e5e5', 5: '#dcdcdc',
+                        },
+                        accent: { DEFAULT: '#0066FF', dim: '#0052cc' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { cursor: none; }
+        html { scrollbar-width: thin; scrollbar-color: #ccc #fafafa; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #fafafa; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+        ::selection { background: #0066FF22; }
+
+        .noise::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 9999;
+            pointer-events: none; opacity: 0.018;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat; background-size: 256px 256px;
+        }
+        .cursor-dot {
+            width: 6px; height: 6px; background: #111; border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 10000;
+            transition: background .3s ease, transform 0.1s ease;
+        }
+        .cursor-ring {
+            width: 36px; height: 36px;
+            border: 1px solid rgba(0,0,0,0.18); border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 10000;
+            transition: width .35s cubic-bezier(.16,1,.3,1), height .35s cubic-bezier(.16,1,.3,1),
+                        border-color .3s ease, background .3s ease, opacity .3s ease;
+        }
+        .cursor-ring.hover    { width: 64px; height: 64px; border-color: #0066FF; background: rgba(0,102,255,.04); }
+        .cursor-ring.img-hover{ width: 0; height: 0; border-width: 0; opacity: 0; }
+
+        .reveal-text { overflow: hidden; display: inline-block; }
+        .reveal-text span { display: inline-block; transform: translateY(105%); transition: transform .9s cubic-bezier(.16,1,.3,1); }
+        .reveal-text.revealed span { transform: translateY(0); }
+
+        .fade-up { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        .stagger-children .fade-up:nth-child(1) { transition-delay:   0ms; }
+        .stagger-children .fade-up:nth-child(2) { transition-delay:  80ms; }
+        .stagger-children .fade-up:nth-child(3) { transition-delay: 160ms; }
+        .stagger-children .fade-up:nth-child(4) { transition-delay: 240ms; }
+        .stagger-children .fade-up:nth-child(5) { transition-delay: 320ms; }
+        .stagger-children .fade-up:nth-child(6) { transition-delay: 400ms; }
+        .stagger-children .fade-up:nth-child(7) { transition-delay: 480ms; }
+        .stagger-children .fade-up:nth-child(8) { transition-delay: 560ms; }
+
+        .line-draw { width: 0; transition: width 1s cubic-bezier(.16,1,.3,1); }
+        .line-draw.visible { width: 100%; }
+
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .marquee-track { animation: marquee 28s linear infinite; }
+
+        .hr-glow { height: 1px; background: linear-gradient(to right, transparent, rgba(0,102,255,.15), transparent); }
+
+        .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #0066FF; transition: width .3s ease; }
+        .nav-link:hover::after { width: 100%; }
+
+        .project-thumb { transition: transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease; }
+        .project-item:hover .project-thumb { transform: scale(1.06); filter: brightness(.7); }
+        .project-item:hover .project-overlay { opacity: 1; }
+        .project-overlay { opacity: 0; transition: opacity .4s ease; }
+
+        .magnetic-btn { transition: transform .3s cubic-bezier(.16,1,.3,1); }
+
+        @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+        .status-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+        .loader-screen {
+            position: fixed; inset: 0; z-index: 99999;
+            background: #fafafa; display: flex; align-items: center; justify-content: center;
+            transition: opacity .6s ease, visibility .6s ease;
+        }
+        .loader-screen.hidden { opacity: 0; visibility: hidden; }
+        .loader-bar { width: 100px; height: 1px; background: rgba(0,0,0,.1); position: relative; overflow: hidden; }
+        .loader-bar::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0; background: #111; animation: loader-fill 1.5s cubic-bezier(.16,1,.3,1) forwards; }
+        @keyframes loader-fill { to { width: 100%; } }
+
+        /* Fullscreen overlay */
+        .fullscreen-overlay {
+            position: fixed; inset: 0; z-index: 9990;
+            background: rgba(3,3,3,.96); backdrop-filter: blur(20px);
+            opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility .4s ease;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .fullscreen-overlay.active { opacity: 1; visibility: visible; }
+        .fullscreen-overlay img { max-width: 90vw; max-height: 85vh; border-radius: 8px; transform: scale(.95); transition: transform .5s cubic-bezier(.16,1,.3,1); }
+        .fullscreen-overlay.active img { transform: scale(1); }
+
+        /* Showreel */
+        .sr-section { display: none; }
+        .sr-section.active { display: block; }
+
+        /* Theme toggle button */
+        .theme-toggle { width: 36px; height: 20px; background: #e5e5e5; border-radius: 10px; position: relative; cursor: pointer !important; transition: background .3s ease; flex-shrink: 0; }
+        .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; background: #fff; border-radius: 50%; transition: transform .3s cubic-bezier(.16,1,.3,1), background .3s ease; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+        html.dark .theme-toggle { background: #0066FF; }
+        html.dark .theme-toggle::after { transform: translateX(16px); background: #fff; }
+
+        @media (hover: none) {
+            .cursor-dot, .cursor-ring { display: none; }
+            * { cursor: auto; }
+            .theme-toggle { cursor: pointer !important; }
+        }
+
+        /* ════════════════════════════════════════
+           DARK MODE OVERRIDES
+        ════════════════════════════════════════ */
+        html.dark { scrollbar-color: #333 #0a0a0a; }
+        html.dark ::-webkit-scrollbar-track { background: #0a0a0a; }
+        html.dark ::-webkit-scrollbar-thumb { background: #333; }
+
+        html.dark body { background-color: #0a0a0a !important; color: #f5f5f5 !important; }
+        html.dark .loader-screen { background: #0a0a0a !important; }
+        html.dark .loader-bar { background: rgba(255,255,255,.1) !important; }
+        html.dark .loader-bar::after { background: #f5f5f5 !important; }
+
+        html.dark #navbar { background-color: rgba(10,10,10,0.88) !important; border-color: rgba(255,255,255,0.06) !important; }
+        html.dark #mobileMenu { background-color: #0a0a0a !important; }
+
+        html.dark .cursor-dot { background: #f5f5f5 !important; }
+        html.dark .cursor-ring { border-color: rgba(255,255,255,.2) !important; }
+
+        html.dark .bg-surface-0 { background-color: #0a0a0a !important; }
+        html.dark .bg-surface-4 { background-color: #1a1a1a !important; }
+        html.dark .bg-neutral-200 { background-color: rgba(255,255,255,0.05) !important; }
+        html.dark .hover\:bg-neutral-50:hover { background-color: rgba(255,255,255,0.04) !important; }
+
+        html.dark .border-neutral-100 { border-color: rgba(255,255,255,0.06) !important; }
+        html.dark .border-neutral-200 { border-color: rgba(255,255,255,0.07) !important; }
+        html.dark .border-neutral-300,
+        html.dark .border-neutral-400 { border-color: rgba(255,255,255,0.12) !important; }
+        html.dark .hover\:border-neutral-300:hover,
+        html.dark .hover\:border-neutral-400:hover { border-color: rgba(255,255,255,0.18) !important; }
+
+        html.dark .text-neutral-900 { color: #f5f5f5 !important; }
+        html.dark .text-neutral-800 { color: #e5e5e5 !important; }
+        html.dark .text-neutral-700 { color: #b0b0b0 !important; }
+        html.dark .text-neutral-600 { color: #808080 !important; }
+        html.dark .text-neutral-500 { color: #606060 !important; }
+        html.dark .hover\:text-neutral-900:hover { color: #f5f5f5 !important; }
+
+        html.dark .from-surface-0\/90 { --tw-gradient-from: rgba(10,10,10,.92) !important; }
+        html.dark .via-surface-0\/10 { --tw-gradient-via: rgba(10,10,10,.1) !important; }
+    </style>
+</head>
+<body class="bg-surface-0 text-neutral-900 font-sans antialiased noise overflow-x-hidden">
+
+    <!-- ── LOADER ──────────────────────────────────────── -->
+    <div class="loader-screen" id="loader">
+        <div class="text-center">
+            <p class="font-display font-medium text-xl tracking-tight text-neutral-900 mb-8">NS</p>
+            <p class="font-mono text-[10px] tracking-[0.3em] uppercase text-neutral-600 mb-5">Loading</p>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- ── CURSOR ──────────────────────────────────────── -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ── FULLSCREEN IMAGE OVERLAY ───────────────────── -->
+    <div class="fullscreen-overlay" id="fullscreenOverlay">
+        <button class="absolute top-6 right-6 interactive-el z-10" id="closeOverlay">
+            <span class="iconify w-6 h-6 text-neutral-400 hover:text-white transition-colors" data-icon="lucide:x"></span>
+        </button>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-center">
+            <p class="font-display text-lg font-medium" id="overlayTitle"></p>
+            <p class="font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-500 mt-1" id="overlayTag"></p>
+        </div>
+        <img src="" alt="" id="overlayImg">
+    </div>
+
+    <!-- ── NAV ────────────────────────────────────────── -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-surface-0/80 backdrop-blur-md border-b border-neutral-100" id="navbar">
+        <div class="max-w-[1400px] mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
+            <a href="#hero" class="font-display font-medium text-sm tracking-tight interactive-el">
+                Nanthavath Senthavy<span class="text-accent">.</span>
+            </a>
+            <div class="hidden md:flex items-center gap-10">
+                <a href="#work"    class="nav-link relative font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-500 hover:text-neutral-900 transition-colors interactive-el">Work</a>
+                <a href="#about"   class="nav-link relative font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-500 hover:text-neutral-900 transition-colors interactive-el">About</a>
+                <a href="#contact" class="nav-link relative font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-500 hover:text-neutral-900 transition-colors interactive-el">Contact</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="theme-toggle interactive-el" id="themeToggle" title="Toggle dark / light"></button>
+                <button class="md:hidden interactive-el" id="menuToggle">
+                    <span class="iconify w-5 h-5" data-icon="lucide:menu"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ── MOBILE MENU ─────────────────────────────────── -->
+    <div class="fixed inset-0 z-40 bg-surface-0 flex flex-col items-start justify-end pb-16 px-8 gap-6 transition-all duration-500 opacity-0 pointer-events-none" id="mobileMenu">
+        <a href="#work"    class="font-display text-4xl font-light tracking-tight text-neutral-500 hover:text-neutral-900 transition-colors mobile-link">Work</a>
+        <a href="#about"   class="font-display text-4xl font-light tracking-tight text-neutral-500 hover:text-neutral-900 transition-colors mobile-link">About</a>
+        <a href="#contact" class="font-display text-4xl font-light tracking-tight text-neutral-500 hover:text-neutral-900 transition-colors mobile-link">Contact</a>
+    </div>
+
+    <!-- ── HERO ───────────────────────────────────────── -->
+    <section id="hero" class="relative h-screen flex items-end pb-16 md:pb-24 px-6 md:px-12">
+        <div class="max-w-[1400px] mx-auto w-full">
+            <div class="mb-5 fade-up">
+                <div class="flex items-center gap-3">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 status-dot"></span>
+                    <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-500">Available for freelance — Vientiane, Laos</span>
+                </div>
+            </div>
+            <h1 class="font-display font-medium tracking-tight leading-[0.9]">
+                <div class="reveal-text"><span class="text-5xl sm:text-7xl md:text-8xl lg:text-[9rem]">Nanthavath</span></div>
+                <div class="reveal-text mt-1 md:mt-2"><span class="text-5xl sm:text-7xl md:text-8xl lg:text-[9rem]">Senthavy</span></div>
+            </h1>
+            <div class="mt-10 md:mt-14 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+                <p class="fade-up max-w-md text-neutral-400 text-sm md:text-base font-light leading-relaxed">
+                    Motion graphics designer & creative professional crafting visual stories through 3D, brand identity, and digital content.
+                </p>
+                <div class="fade-up flex items-center gap-4">
+                    <a href="#work" class="magnetic-btn interactive-el flex items-center gap-3 border border-neutral-300 rounded-full px-6 py-3 hover:border-neutral-400 transition-colors">
+                        <span class="font-mono text-[10px] tracking-[0.15em] uppercase">Explore Work</span>
+                        <span class="iconify w-3 h-3" data-icon="lucide:arrow-down"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 fade-up">
+            <div class="w-[1px] h-10 bg-gradient-to-b from-transparent to-neutral-300"></div>
+        </div>
+    </section>
+
+    <!-- ── MARQUEE ─────────────────────────────────────── -->
+    <div class="border-y border-neutral-200 py-3.5 overflow-hidden">
+        <div class="marquee-track flex whitespace-nowrap">
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Motion Graphics</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">3D Design</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Brand Identity</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">After Effects</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Video Production</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Cinema 4D</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">UI / UX Design</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Blender</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <!-- duplicate for seamless loop -->
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Motion Graphics</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">3D Design</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Brand Identity</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">After Effects</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Video Production</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Cinema 4D</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">UI / UX Design</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+            <span class="font-mono text-[9px] tracking-[0.3em] uppercase text-neutral-700 mx-8">Blender</span>
+            <span class="text-neutral-300 mx-4">✦</span>
+        </div>
+    </div>
+
+    <!-- ── SHOWREEL (hidden until uploaded / embed set) ── -->
+    <section class="sr-section px-6 md:px-12 py-16 md:py-20 border-b border-neutral-200" id="showreelSection" data-youtube="aqz-KE-bpKQ">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="flex items-center justify-between mb-5">
+                <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-700">Showreel</span>
+                <span class="font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-700">2024</span>
+            </div>
+            <div class="relative w-full aspect-video bg-surface-4 rounded-lg overflow-hidden" id="showreelPlayer">
+                <!-- Filled dynamically: local video or Vimeo/YouTube embed -->
+                <!-- To use Vimeo: add data-vimeo="VIDEO_ID" to #showreelSection -->
+                <!-- To use YouTube: add data-youtube="VIDEO_ID" to #showreelSection -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ── WORK ───────────────────────────────────────── -->
+    <section id="work" class="px-6 md:px-12 py-24 md:py-32">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="flex items-end justify-between mb-12 md:mb-20">
+                <div class="fade-up">
+                    <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">Selected Projects</span>
+                    <h2 class="font-display text-3xl md:text-5xl font-medium tracking-tight">Work</h2>
+                </div>
+                <span class="fade-up font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-700 hidden md:block">Click to expand</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 stagger-children">
+
+                <!-- Project 1 -->
+                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
+                     data-slot="project-1"
+                     data-title="Brand Animation Reel"
+                     data-tag="Motion Graphics / After Effects"
+                     data-img="https://images.unsplash.com/photo-1561070791-2526af02a981?w=1400&h=1050&fit=crop&q=80">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526af02a981?w=1400&h=1050&fit=crop&q=80" alt="Brand Animation Reel" class="project-thumb w-full h-full object-cover" id="img-project-1">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">Motion Graphics</span>
+                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Brand Animation Reel</h3>
+                        <p class="text-neutral-400 text-xs font-light mt-1">Logo animations & brand reveal sequences</p>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
+                     data-slot="project-2"
+                     data-title="3D Visual Identity System"
+                     data-tag="3D Design / Blender / Cinema 4D"
+                     data-img="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1400&h=1050&fit=crop&q=80">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1400&h=1050&fit=crop&q=80" alt="3D Visual Identity" class="project-thumb w-full h-full object-cover" id="img-project-2">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">3D Design</span>
+                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">3D Visual Identity</h3>
+                        <p class="text-neutral-400 text-xs font-light mt-1">Product visualization & 3D brand elements</p>
+                    </div>
+                </div>
+
+                <!-- Project 3 — Wide -->
+                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[2/1] md:col-span-2 fade-up"
+                     data-slot="project-3"
+                     data-title="Luxury Brand Identity System"
+                     data-tag="Branding / Visual Identity"
+                     data-img="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=1600&h=800&fit=crop&q=80">
+                    <img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=1600&h=800&fit=crop&q=80" alt="Luxury Brand Identity" class="project-thumb w-full h-full object-cover" id="img-project-3">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">Branding</span>
+                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Luxury Brand Identity System</h3>
+                        <p class="text-neutral-400 text-xs font-light mt-1">Logo, color system & brand guideline document</p>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
+                     data-slot="project-4"
+                     data-title="Hospitality Web Interface"
+                     data-tag="UX/UI Design / Figma"
+                     data-img="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1400&h=1050&fit=crop&q=80">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1400&h=1050&fit=crop&q=80" alt="Hospitality Web Interface" class="project-thumb w-full h-full object-cover" id="img-project-4">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">UX / UI</span>
+                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Hospitality Web Interface</h3>
+                        <p class="text-neutral-400 text-xs font-light mt-1">5-star hotel website design & prototyping</p>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
+                     data-slot="project-5"
+                     data-title="Hotel Promotional Film"
+                     data-tag="Video Production / Color Grading"
+                     data-img="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1400&h=1050&fit=crop&q=80">
+                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1400&h=1050&fit=crop&q=80" alt="Hotel Promotional Film" class="project-thumb w-full h-full object-cover" id="img-project-5">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">Video Production</span>
+                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Hotel Promotional Film</h3>
+                        <p class="text-neutral-400 text-xs font-light mt-1">Filming, editing & color grading</p>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
+                     data-slot="project-6"
+                     data-title="Facebook Ad Campaign Series"
+                     data-tag="Social Media / Photoshop"
+                     data-img="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1400&h=1050&fit=crop&q=80">
+                    <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1400&h=1050&fit=crop&q=80" alt="Facebook Ad Campaign" class="project-thumb w-full h-full object-cover" id="img-project-6">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
+                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">Social Media</span>
+                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Facebook Ad Campaign</h3>
+                        <p class="text-neutral-400 text-xs font-light mt-1">Static & animated social media creative</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── ABOUT ──────────────────────────────────────── -->
+    <section id="about" class="px-6 md:px-12 py-24 md:py-32 border-t border-neutral-200">
+        <div class="max-w-[1400px] mx-auto">
+
+            <!-- Header -->
+            <div class="flex items-end justify-between mb-16 md:mb-24 fade-up">
+                <div>
+                    <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">About</span>
+                    <h2 class="font-display text-3xl md:text-5xl font-medium tracking-tight">Who I Am</h2>
+                </div>
+                <span class="font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-700 hidden md:block">Vientiane, Laos — b. 1995</span>
+            </div>
+
+            <!-- Top: Photo + Intro -->
+            <div class="md:grid md:grid-cols-12 gap-12 md:gap-16 mb-16 md:mb-24">
+
+                <!-- Photo -->
+                <div class="md:col-span-4 mb-10 md:mb-0 fade-up">
+                    <div class="relative overflow-hidden rounded-lg">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&h=900&fit=crop&q=80"
+                             alt="Nanthavath Senthavy"
+                             id="aboutProfileImg"
+                             class="w-full h-[340px] md:h-[460px] object-cover opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-surface-0/90 via-surface-0/10 to-transparent"></div>
+                        <!-- Name card on photo -->
+                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                            <p class="font-display text-lg font-medium tracking-tight text-white">Nanthavath Senthavy</p>
+                            <p class="font-mono text-[10px] tracking-[0.12em] uppercase text-neutral-400 mt-1">Graphic Designer & Video Editor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Intro text -->
+                <div class="md:col-span-8 flex flex-col justify-center gap-6">
+                    <div class="fade-up">
+                        <p class="text-xl md:text-2xl font-light leading-relaxed text-neutral-800 tracking-tight">
+                            I'm Nanthavath — also known as Do. A seasoned graphic designer and video editor with a passion for bringing ideas to life through creative visuals.
+                        </p>
+                    </div>
+                    <div class="fade-up">
+                        <p class="text-sm md:text-base font-light leading-relaxed text-neutral-500">
+                            Born in 1995 in Vientiane, Laos, I've dedicated the past six years to honing my skills across graphic design, motion graphics, video production, and marketing communications.
+                        </p>
+                    </div>
+                    <div class="fade-up">
+                        <p class="text-sm md:text-base font-light leading-relaxed text-neutral-500">
+                            My journey is defined by a commitment to creativity, attention to detail, and a relentless pursuit of excellence — designing things that move, brands that stand out, and visuals that don't need to explain themselves.
+                        </p>
+                    </div>
+
+                    <!-- Skills pills -->
+                    <div class="fade-up flex flex-wrap gap-2 pt-2">
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">Photo Editing</span>
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">Video Editing</span>
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">Motion Graphics</span>
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">Brand Identity</span>
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">3D Design</span>
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">Print Design</span>
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">Live Streaming</span>
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">Social Media</span>
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">Photography</span>
+                        <span class="font-mono text-[9px] tracking-[0.1em] uppercase border border-neutral-200 text-neutral-500 px-3 py-1.5 rounded-full">PR & MarCom</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="hr-glow line-draw mb-10"></div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 md:mb-24 stagger-children">
+                <div class="fade-up">
+                    <span class="font-display text-3xl md:text-4xl font-medium text-neutral-900 counter" data-count="9">0</span><span class="font-display text-3xl md:text-4xl font-medium text-neutral-900">+</span>
+                    <p class="font-mono text-[9px] tracking-[0.15em] uppercase text-neutral-600 mt-2">Years Experience</p>
+                </div>
+                <div class="fade-up">
+                    <span class="font-display text-3xl md:text-4xl font-medium text-neutral-900 counter" data-count="120">0</span><span class="font-display text-3xl md:text-4xl font-medium text-neutral-900">+</span>
+                    <p class="font-mono text-[9px] tracking-[0.15em] uppercase text-neutral-600 mt-2">Projects Delivered</p>
+                </div>
+                <div class="fade-up">
+                    <span class="font-display text-3xl md:text-4xl font-medium text-neutral-900 counter" data-count="4">0</span><span class="font-display text-3xl md:text-4xl font-medium text-neutral-900">+</span>
+                    <p class="font-mono text-[9px] tracking-[0.15em] uppercase text-neutral-600 mt-2">Companies</p>
+                </div>
+                <div class="fade-up">
+                    <span class="font-display text-3xl md:text-4xl font-medium text-neutral-900 counter" data-count="5">0</span><span class="font-display text-3xl md:text-4xl font-medium text-neutral-900">★</span>
+                    <p class="font-mono text-[9px] tracking-[0.15em] uppercase text-neutral-600 mt-2">Hotel Property</p>
+                </div>
+            </div>
+            <div class="hr-glow line-draw mb-16 md:mb-24"></div>
+
+            <!-- Experience Timeline -->
+            <div class="fade-up mb-10">
+                <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-700 block mb-8">Experience</span>
+            </div>
+
+            <div class="space-y-0">
+
+                <!-- Role 1 — Current -->
+                <div class="fade-up group grid md:grid-cols-12 gap-4 md:gap-8 py-8 border-t border-neutral-200 hover:border-neutral-300 transition-colors">
+                    <div class="md:col-span-3">
+                        <span class="font-mono text-[9px] tracking-[0.12em] uppercase text-accent block mb-1">Current</span>
+                        <span class="font-mono text-[9px] tracking-[0.08em] text-neutral-600">2023 — Present</span>
+                    </div>
+                    <div class="md:col-span-5">
+                        <h3 class="font-display text-base md:text-lg font-medium tracking-tight text-neutral-900 mb-1">Asst. Marketing Communications Manager</h3>
+                        <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-neutral-500">Amari Vientiane · ONYX Hospitality Group</p>
+                    </div>
+                    <div class="md:col-span-4">
+                        <p class="text-sm font-light leading-relaxed text-neutral-600">
+                            Designing graphics, directing photoshoots for F&B, maintaining brand standards, managing daily marketing activities, and driving PR & revenue initiatives.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Role 2 -->
+                <div class="fade-up group grid md:grid-cols-12 gap-4 md:gap-8 py-8 border-t border-neutral-200 hover:border-neutral-300 transition-colors">
+                    <div class="md:col-span-3">
+                        <span class="font-mono text-[9px] tracking-[0.08em] text-neutral-600">2021 — 2023</span>
+                    </div>
+                    <div class="md:col-span-5">
+                        <h3 class="font-display text-base md:text-lg font-medium tracking-tight text-neutral-900 mb-1">Cluster MarCom Executive — Media</h3>
+                        <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-neutral-500">Crowne Plaza & Holiday Inn Vientiane · IHG</p>
+                    </div>
+                    <div class="md:col-span-4">
+                        <p class="text-sm font-light leading-relaxed text-neutral-600">
+                            Led content creation across both properties, managed photography & video production, and ensured brand consistency. Selected for Holiday Inn pre-opening cluster team.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Role 3 -->
+                <div class="fade-up group grid md:grid-cols-12 gap-4 md:gap-8 py-8 border-t border-neutral-200 hover:border-neutral-300 transition-colors">
+                    <div class="md:col-span-3">
+                        <span class="font-mono text-[9px] tracking-[0.08em] text-neutral-600">2019 — 2021</span>
+                    </div>
+                    <div class="md:col-span-5">
+                        <h3 class="font-display text-base md:text-lg font-medium tracking-tight text-neutral-900 mb-1">MarCom Executive</h3>
+                        <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-neutral-500">Crowne Plaza Vientiane · IHG</p>
+                    </div>
+                    <div class="md:col-span-4">
+                        <p class="text-sm font-light leading-relaxed text-neutral-600">
+                            Supported brand marketing initiatives and visual content development across the property's marketing channels.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Role 4 -->
+                <div class="fade-up group grid md:grid-cols-12 gap-4 md:gap-8 py-8 border-t border-neutral-200 hover:border-neutral-300 transition-colors">
+                    <div class="md:col-span-3">
+                        <span class="font-mono text-[9px] tracking-[0.08em] text-neutral-600">2017 — 2019</span>
+                    </div>
+                    <div class="md:col-span-5">
+                        <h3 class="font-display text-base md:text-lg font-medium tracking-tight text-neutral-900 mb-1">Graphic Designer</h3>
+                        <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-neutral-500">J&C Marketing / Digital Monkey / Born To B</p>
+                    </div>
+                    <div class="md:col-span-4">
+                        <p class="text-sm font-light leading-relaxed text-neutral-600">
+                            Created impactful artwork for Facebook ad campaigns, managed proposals from concept to print, social media content creation, photography & videography.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bottom border -->
+                <div class="border-t border-neutral-200"></div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SERVICES ───────────────────────────────────── -->
+    <section class="px-6 md:px-12 py-24 md:py-32 border-t border-neutral-200">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="mb-12 md:mb-20 fade-up">
+                <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">Services</span>
+                <h2 class="font-display text-3xl md:text-5xl font-medium tracking-tight">What I Do</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-neutral-200 rounded-lg overflow-hidden stagger-children">
+
+                <div class="fade-up bg-surface-0 p-8 md:p-10 group hover:bg-neutral-50 transition-colors duration-500">
+                    <span class="iconify w-6 h-6 text-neutral-600 group-hover:text-accent transition-colors mb-6 block" data-icon="lucide:play-circle"></span>
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="font-display text-lg font-medium tracking-tight">Motion Graphics</h3>
+                        <span class="font-mono text-[9px] text-neutral-700 mt-1">from $150</span>
+                    </div>
+                    <p class="text-neutral-500 text-sm font-light leading-relaxed">Logo animations, brand reveals, social media motion content, intro/outro sequences.</p>
+                </div>
+
+                <div class="fade-up bg-surface-0 p-8 md:p-10 group hover:bg-neutral-50 transition-colors duration-500">
+                    <span class="iconify w-6 h-6 text-neutral-600 group-hover:text-accent transition-colors mb-6 block" data-icon="lucide:palette"></span>
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="font-display text-lg font-medium tracking-tight">Brand Identity</h3>
+                        <span class="font-mono text-[9px] text-neutral-700 mt-1">from $200</span>
+                    </div>
+                    <p class="text-neutral-500 text-sm font-light leading-relaxed">Logo design, color system, typography selection, brand guideline document.</p>
+                </div>
+
+                <div class="fade-up bg-surface-0 p-8 md:p-10 group hover:bg-neutral-50 transition-colors duration-500">
+                    <span class="iconify w-6 h-6 text-neutral-600 group-hover:text-accent transition-colors mb-6 block" data-icon="lucide:box"></span>
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="font-display text-lg font-medium tracking-tight">3D Design</h3>
+                        <span class="font-mono text-[9px] text-neutral-700 mt-1">from $180</span>
+                    </div>
+                    <p class="text-neutral-500 text-sm font-light leading-relaxed">Product visualization, 3D elements, modeling and photoreal rendering.</p>
+                </div>
+
+                <div class="fade-up bg-surface-0 p-8 md:p-10 group hover:bg-neutral-50 transition-colors duration-500">
+                    <span class="iconify w-6 h-6 text-neutral-600 group-hover:text-accent transition-colors mb-6 block" data-icon="lucide:video"></span>
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="font-display text-lg font-medium tracking-tight">Video Production</h3>
+                        <span class="font-mono text-[9px] text-neutral-700 mt-1">from $250</span>
+                    </div>
+                    <p class="text-neutral-500 text-sm font-light leading-relaxed">Promotional films, corporate video editing, color grading, event coverage.</p>
+                </div>
+
+                <div class="fade-up bg-surface-0 p-8 md:p-10 group hover:bg-neutral-50 transition-colors duration-500">
+                    <span class="iconify w-6 h-6 text-neutral-600 group-hover:text-accent transition-colors mb-6 block" data-icon="lucide:layout"></span>
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="font-display text-lg font-medium tracking-tight">UX / UI Design</h3>
+                        <span class="font-mono text-[9px] text-neutral-700 mt-1">from $300</span>
+                    </div>
+                    <p class="text-neutral-500 text-sm font-light leading-relaxed">Website design, landing pages, app interface, Figma prototyping.</p>
+                </div>
+
+                <div class="fade-up bg-surface-0 p-8 md:p-10 group hover:bg-neutral-50 transition-colors duration-500">
+                    <span class="iconify w-6 h-6 text-neutral-600 group-hover:text-accent transition-colors mb-6 block" data-icon="lucide:image"></span>
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="font-display text-lg font-medium tracking-tight">Social Creative</h3>
+                        <span class="font-mono text-[9px] text-neutral-700 mt-1">from $80/mo</span>
+                    </div>
+                    <p class="text-neutral-500 text-sm font-light leading-relaxed">Facebook/Instagram ads, static & animated posts, monthly content packages.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── TOOLS ──────────────────────────────────────── -->
+    <section class="px-6 md:px-12 py-24 md:py-32 border-t border-neutral-200">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="mb-12 md:mb-16 fade-up">
+                <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">Tools</span>
+                <h2 class="font-display text-3xl md:text-5xl font-medium tracking-tight">Software</h2>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 stagger-children">
+
+                <!-- Ai -->
+                <div class="fade-up group border border-neutral-200 rounded-lg p-6 flex flex-col items-center gap-3 hover:border-accent/20 hover:bg-accent/[0.02] transition-all duration-300 interactive-el">
+                    <span class="iconify w-8 h-8 transition-colors" data-icon="logos:adobe-illustrator" style="color:#FF9A00"></span>
+                    <div class="text-center">
+                        <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-neutral-900 font-medium">Ai</p>
+                        <p class="font-mono text-[8px] tracking-[0.05em] text-neutral-500 mt-0.5">Illustrator</p>
+                    </div>
+                </div>
+
+                <!-- Ps -->
+                <div class="fade-up group border border-neutral-200 rounded-lg p-6 flex flex-col items-center gap-3 hover:border-accent/20 hover:bg-accent/[0.02] transition-all duration-300 interactive-el">
+                    <span class="iconify w-8 h-8 transition-colors" data-icon="logos:adobe-photoshop" style="color:#31A8FF"></span>
+                    <div class="text-center">
+                        <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-neutral-900 font-medium">Ps</p>
+                        <p class="font-mono text-[8px] tracking-[0.05em] text-neutral-500 mt-0.5">Photoshop</p>
+                    </div>
+                </div>
+
+                <!-- Ae -->
+                <div class="fade-up group border border-neutral-200 rounded-lg p-6 flex flex-col items-center gap-3 hover:border-accent/20 hover:bg-accent/[0.02] transition-all duration-300 interactive-el">
+                    <span class="iconify w-8 h-8 transition-colors" data-icon="logos:adobe-after-effects" style="color:#9999FF"></span>
+                    <div class="text-center">
+                        <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-neutral-900 font-medium">Ae</p>
+                        <p class="font-mono text-[8px] tracking-[0.05em] text-neutral-500 mt-0.5">After Effects</p>
+                    </div>
+                </div>
+
+                <!-- Pr -->
+                <div class="fade-up group border border-neutral-200 rounded-lg p-6 flex flex-col items-center gap-3 hover:border-accent/20 hover:bg-accent/[0.02] transition-all duration-300 interactive-el">
+                    <span class="iconify w-8 h-8 transition-colors" data-icon="logos:adobe-premiere" style="color:#EA77FF"></span>
+                    <div class="text-center">
+                        <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-neutral-900 font-medium">Pr</p>
+                        <p class="font-mono text-[8px] tracking-[0.05em] text-neutral-500 mt-0.5">Premiere Pro</p>
+                    </div>
+                </div>
+
+                <!-- Blender -->
+                <div class="fade-up group border border-neutral-200 rounded-lg p-6 flex flex-col items-center gap-3 hover:border-accent/20 hover:bg-accent/[0.02] transition-all duration-300 interactive-el">
+                    <span class="iconify w-8 h-8 transition-colors" data-icon="logos:blender" style="color:#E87D0D"></span>
+                    <div class="text-center">
+                        <p class="font-mono text-[10px] tracking-[0.1em] uppercase text-neutral-900 font-medium">Blender</p>
+                        <p class="font-mono text-[8px] tracking-[0.05em] text-neutral-500 mt-0.5">3D & VFX</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CONTACT ────────────────────────────────────── -->
+    <section id="contact" class="px-6 md:px-12 py-24 md:py-36 border-t border-neutral-200">
+        <div class="max-w-[1400px] mx-auto">
+
+            <div class="fade-up mb-4">
+                <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">Contact</span>
+            </div>
+            <h2 class="font-display text-4xl sm:text-6xl md:text-8xl font-medium tracking-tight leading-[0.95] fade-up">
+                Let's create<br>
+                <span class="text-neutral-600">something.</span>
+            </h2>
+            <p class="fade-up text-neutral-500 text-base md:text-lg font-light mt-8 max-w-xl leading-relaxed">
+                Available for freelance projects, brand collaborations, and creative consulting. Based in Vientiane, Laos — working globally.
+            </p>
+
+            <!-- CTA buttons -->
+            <div class="mt-12 flex flex-col sm:flex-row gap-4 fade-up">
+                <a href="mailto:donanthavath@gmail.com"
+                   class="magnetic-btn interactive-el group inline-flex items-center gap-3 bg-accent text-white px-8 py-4 rounded-full font-mono text-[10px] tracking-[0.15em] uppercase hover:bg-accent-dim transition-colors">
+                    <span>Send Email</span>
+                    <span class="iconify w-4 h-4 group-hover:translate-x-1 transition-transform" data-icon="lucide:arrow-right"></span>
+                </a>
+                <a href="tel:+8562077534233"
+                   class="magnetic-btn interactive-el group inline-flex items-center gap-3 border border-neutral-300 px-8 py-4 rounded-full font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-900 hover:border-neutral-400 transition-all">
+                    <span class="iconify w-4 h-4" data-icon="lucide:phone"></span>
+                    <span>+856 20 7753 4233</span>
+                </a>
+            </div>
+
+            <div class="hr-glow line-draw mt-16 mb-12"></div>
+
+            <!-- Contact details grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 stagger-children">
+
+                <div class="fade-up">
+                    <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">Email</span>
+                    <a href="mailto:donanthavath@gmail.com"
+                       class="text-neutral-700 hover:text-accent transition-colors text-sm font-light interactive-el break-all">
+                        donanthavath@gmail.com
+                    </a>
+                </div>
+
+                <div class="fade-up">
+                    <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">Phone</span>
+                    <a href="tel:+8562077534233"
+                       class="text-neutral-700 hover:text-accent transition-colors text-sm font-light interactive-el">
+                        +856 20 7753 4233
+                    </a>
+                </div>
+
+                <div class="fade-up">
+                    <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">Location</span>
+                    <span class="text-neutral-700 text-sm font-light">Vientiane, Laos</span>
+                </div>
+
+                <div class="fade-up">
+                    <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">Connect</span>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://www.linkedin.com/in/nanthavath/" target="_blank" rel="noopener"
+                           class="text-neutral-600 hover:text-accent transition-colors interactive-el" title="LinkedIn">
+                            <span class="iconify w-4 h-4" data-icon="lucide:linkedin"></span>
+                        </a>
+                        <a href="https://www.instagram.com/do_nanthavath/" target="_blank" rel="noopener"
+                           class="text-neutral-600 hover:text-accent transition-colors interactive-el" title="Instagram">
+                            <span class="iconify w-4 h-4" data-icon="lucide:instagram"></span>
+                        </a>
+                        <a href="https://web.facebook.com/do.nanthavath/" target="_blank" rel="noopener"
+                           class="text-neutral-600 hover:text-accent transition-colors interactive-el" title="Facebook">
+                            <span class="iconify w-4 h-4" data-icon="lucide:facebook"></span>
+                        </a>
+                        <a href="https://nanthavath.myportfolio.com" target="_blank" rel="noopener"
+                           class="text-neutral-600 hover:text-accent transition-colors interactive-el" title="Adobe Portfolio">
+                            <span class="iconify w-4 h-4" data-icon="lucide:external-link"></span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ─────────────────────────────────────── -->
+    <footer class="px-6 md:px-12 py-7 border-t border-neutral-200">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <span class="font-mono text-[9px] tracking-[0.15em] uppercase text-neutral-500">© 2026 Nanthavath Senthavy. All rights reserved.</span>
+            <span class="font-mono text-[9px] tracking-[0.15em] uppercase text-neutral-500">Vientiane, Laos</span>
+        </div>
+    </footer>
+
+    <script>
+    // ═══════════════════════════════════════════════════════
+    //  LOADER
+    // ═══════════════════════════════════════════════════════
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loader').classList.add('hidden');
+            setTimeout(triggerHeroAnimations, 200);
+            loadMedia();
+        }, 1600);
+    });
+
+    // ═══════════════════════════════════════════════════════
+    //  MEDIA LOADING (local files + Vimeo/YouTube embeds)
+    //  Works on local server AND Cloudflare Pages static hosting
+    // ═══════════════════════════════════════════════════════
+    const IMG_EXTS = ['jpg','jpeg','png','webp','avif'];
+    const VID_EXTS = ['mp4','webm'];
+
+    async function probe(paths) {
+        for (const p of paths) {
+            try { const r = await fetch(p, { method: 'HEAD' }); if (r.ok) return p; } catch(_) {}
+        }
+        return null;
+    }
+
+    async function loadMedia() {
+        // Profile photo → about section image
+        const profileSrc = await probe(IMG_EXTS.map(e => `assets/images/profile.${e}`));
+        if (profileSrc) {
+            const img = document.getElementById('aboutProfileImg');
+            if (img) img.src = profileSrc;
+        }
+
+        // Project thumbnails
+        for (let i = 1; i <= 6; i++) {
+            const src = await probe(IMG_EXTS.map(e => `assets/images/project-${i}.${e}`));
+            if (src) {
+                const imgEl = document.getElementById(`img-project-${i}`);
+                const item  = document.querySelector(`[data-slot="project-${i}"]`);
+                if (imgEl) imgEl.src = src;
+                if (item)  item.dataset.img = src;
+            }
+        }
+
+        // Showreel — local video file
+        const showSrc = await probe(VID_EXTS.map(e => `assets/videos/showreel.${e}`));
+        const srSection = document.getElementById('showreelSection');
+        const srPlayer  = document.getElementById('showreelPlayer');
+
+        if (showSrc && srSection && srPlayer) {
+            srSection.classList.add('active');
+            srPlayer.innerHTML = `
+                <video class="w-full h-full object-cover" controls preload="metadata">
+                    <source src="${showSrc}" type="video/mp4">
+                </video>`;
+        } else if (srSection) {
+            // Vimeo / YouTube embed via data attribute
+            const vimeoId   = srSection.dataset.vimeo;
+            const youtubeId = srSection.dataset.youtube;
+            if (vimeoId) {
+                srSection.classList.add('active');
+                srPlayer.style.position = 'relative';
+                srPlayer.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&color=0088FF" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen" allowfullscreen></iframe>`;
+            } else if (youtubeId) {
+                srSection.classList.add('active');
+                srPlayer.style.position = 'relative';
+                srPlayer.innerHTML = `<iframe src="https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="fullscreen" allowfullscreen></iframe>`;
+            }
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  CUSTOM CURSOR
+    // ═══════════════════════════════════════════════════════
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        dot.style.left = mouseX - 3 + 'px';
+        dot.style.top  = mouseY - 3 + 'px';
+    });
+    (function animateCursor() {
+        ringX += (mouseX - ringX) * 0.12;
+        ringY += (mouseY - ringY) * 0.12;
+        ring.style.left = ringX - 18 + 'px';
+        ring.style.top  = ringY - 18 + 'px';
+        requestAnimationFrame(animateCursor);
+    })();
+
+    document.querySelectorAll('.interactive-el').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+    });
+    document.querySelectorAll('.project-item').forEach(el => {
+        el.addEventListener('mouseenter', () => { ring.classList.add('img-hover'); ring.classList.remove('hover'); });
+        el.addEventListener('mouseleave', () => ring.classList.remove('img-hover'));
+    });
+
+    // ═══════════════════════════════════════════════════════
+    //  HERO ANIMATIONS
+    // ═══════════════════════════════════════════════════════
+    function triggerHeroAnimations() {
+        document.querySelectorAll('#hero .reveal-text').forEach((el, i) => {
+            setTimeout(() => el.classList.add('revealed'), i * 150);
+        });
+        document.querySelectorAll('#hero .fade-up').forEach((el, i) => {
+            setTimeout(() => el.classList.add('visible'), 400 + i * 100);
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  SCROLL OBSERVER
+    // ═══════════════════════════════════════════════════════
+    let countersTriggered = false;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            if (entry.target.classList.contains('fade-up'))    entry.target.classList.add('visible');
+            if (entry.target.classList.contains('reveal-text'))entry.target.classList.add('revealed');
+            if (entry.target.classList.contains('line-draw'))  entry.target.classList.add('visible');
+
+            // Counter animation on about stats
+            if (entry.target.classList.contains('counter') && !countersTriggered) {
+                countersTriggered = true;
+                document.querySelectorAll('.counter').forEach(el => animCount(el));
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up, .reveal-text, .line-draw, .counter').forEach(el => {
+        if (!el.closest('#hero')) observer.observe(el);
+    });
+
+    // ═══════════════════════════════════════════════════════
+    //  COUNTER ANIMATION
+    // ═══════════════════════════════════════════════════════
+    function animCount(el) {
+        const target = parseInt(el.dataset.count, 10);
+        const dur = 1400, start = performance.now();
+        (function step(now) {
+            const t = Math.min((now - start) / dur, 1);
+            const ease = 1 - Math.pow(1 - t, 3);
+            el.textContent = Math.round(ease * target);
+            if (t < 1) requestAnimationFrame(step);
+        })(start);
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  MAGNETIC BUTTONS
+    // ═══════════════════════════════════════════════════════
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const r = btn.getBoundingClientRect();
+            const x = e.clientX - r.left - r.width / 2;
+            const y = e.clientY - r.top  - r.height / 2;
+            btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+        });
+        btn.addEventListener('mouseleave', () => btn.style.transform = '');
+    });
+
+    // ═══════════════════════════════════════════════════════
+    //  MOBILE MENU
+    // ═══════════════════════════════════════════════════════
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let menuOpen = false;
+
+    menuToggle.addEventListener('click', () => {
+        menuOpen = !menuOpen;
+        mobileMenu.classList.toggle('opacity-0', !menuOpen);
+        mobileMenu.classList.toggle('pointer-events-none', !menuOpen);
+        mobileMenu.classList.toggle('opacity-100', menuOpen);
+        mobileMenu.classList.toggle('pointer-events-auto', menuOpen);
+    });
+    document.querySelectorAll('.mobile-link').forEach(l => {
+        l.addEventListener('click', () => {
+            menuOpen = false;
+            mobileMenu.classList.add('opacity-0','pointer-events-none');
+            mobileMenu.classList.remove('opacity-100','pointer-events-auto');
+        });
+    });
+
+    // ═══════════════════════════════════════════════════════
+    //  NAVBAR AUTO-HIDE
+    // ═══════════════════════════════════════════════════════
+    let lastScroll = 0;
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        const cur = window.scrollY;
+        navbar.style.transform = (cur > lastScroll && cur > 80) ? 'translateY(-100%)' : 'translateY(0)';
+        navbar.style.transition = 'transform 0.4s ease';
+        lastScroll = cur;
+    }, { passive: true });
+
+    // ═══════════════════════════════════════════════════════
+    //  FULLSCREEN IMAGE OVERLAY
+    // ═══════════════════════════════════════════════════════
+    const overlay      = document.getElementById('fullscreenOverlay');
+    const overlayImg   = document.getElementById('overlayImg');
+    const overlayTitle = document.getElementById('overlayTitle');
+    const overlayTag   = document.getElementById('overlayTag');
+
+    document.querySelectorAll('.project-item').forEach(item => {
+        item.addEventListener('click', () => {
+            overlayImg.src = item.dataset.img;
+            overlayTitle.textContent = item.dataset.title;
+            overlayTag.textContent   = item.dataset.tag;
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    document.getElementById('closeOverlay').addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeOverlay(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeOverlay(); });
+    function closeOverlay() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  DARK / LIGHT THEME TOGGLE
+    // ═══════════════════════════════════════════════════════
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    // Apply saved preference on load (before loader hides)
+    if (localStorage.getItem('theme') === 'dark') {
+        htmlEl.classList.add('dark');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        htmlEl.classList.toggle('dark');
+        localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
+    });
+    </script>
+</body>
+</html>

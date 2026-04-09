@@ -1,0 +1,20 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large video files — use Vimeo/YouTube embed instead
+# Comment these lines out if you want to commit small clips (<50MB)
+assets/videos/showreel.*
+
+# Editor
+.vscode/settings.json
+*.swp
+*.swo
+
+# Env / secrets
+.env
+.env.local
