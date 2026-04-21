@@ -93,6 +93,32 @@
         .project-item:hover .project-overlay { opacity: 1; }
         .project-overlay { opacity: 0; transition: opacity .4s ease; }
 
+        /* Filter tabs */
+        .filter-tab { transition: color .2s, background .2s, border-color .2s; }
+        .filter-tab.active { background: #111; color: #fff; border-color: #111; }
+        html.dark .filter-tab.active { background: #fff; color: #111; border-color: #fff; }
+
+        /* Gallery grid */
+        #galleryGrid { transition: opacity .2s ease; }
+        #galleryGrid.fading { opacity: 0; }
+        .gallery-item { transition: transform .4s cubic-bezier(.16,1,.3,1), opacity .4s ease; }
+        .gallery-item.hidden { display: none; }
+
+        /* Lightbox */
+        #lightbox { position: fixed; inset: 0; z-index: 9995; background: rgba(0,0,0,.95); backdrop-filter: blur(12px);
+            display: none; align-items: center; justify-content: center; }
+        #lightbox.open { display: flex; }
+        #lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; }
+        #lightboxClose { position: absolute; top: 20px; right: 24px; color: #fff; font-size: 28px; cursor: pointer;
+            background: none; border: none; line-height: 1; opacity: .7; transition: opacity .2s; }
+        #lightboxClose:hover { opacity: 1; }
+        #lightboxPrev, #lightboxNext { position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,.1); border: none; color: #fff; font-size: 22px; cursor: pointer;
+            width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            transition: background .2s; }
+        #lightboxPrev { left: 16px; } #lightboxNext { right: 16px; }
+        #lightboxPrev:hover, #lightboxNext:hover { background: rgba(255,255,255,.2); }
+
         .magnetic-btn { transition: transform .3s cubic-bezier(.16,1,.3,1); }
 
         @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
@@ -314,104 +340,35 @@
         </div>
     </section>
 
+    <!-- ── LIGHTBOX ─────────────────────────────────────── -->
+    <div id="lightbox" role="dialog" aria-modal="true">
+        <button id="lightboxClose" aria-label="Close">&#x2715;</button>
+        <button id="lightboxPrev" aria-label="Previous">&#8592;</button>
+        <img id="lightboxImg" src="" alt="Gallery image">
+        <button id="lightboxNext" aria-label="Next">&#8594;</button>
+    </div>
+
     <!-- ── WORK ───────────────────────────────────────── -->
     <section id="work" class="px-6 md:px-12 py-24 md:py-32">
         <div class="max-w-[1400px] mx-auto">
-            <div class="flex items-end justify-between mb-12 md:mb-20">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-14">
                 <div class="fade-up">
                     <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-700 block mb-3">Selected Projects</span>
                     <h2 class="font-display text-3xl md:text-5xl font-medium tracking-tight">Work</h2>
                 </div>
-                <span class="fade-up font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-700 hidden md:block">Click to expand</span>
+                <!-- Filter tabs -->
+                <div class="fade-up flex flex-wrap gap-2" id="filterTabs">
+                    <button class="filter-tab active interactive-el font-mono text-[10px] tracking-[0.15em] uppercase px-4 py-2 rounded-full border border-neutral-300" data-filter="all">All <span class="ml-1 opacity-50" id="countAll">146</span></button>
+                    <button class="filter-tab interactive-el font-mono text-[10px] tracking-[0.15em] uppercase px-4 py-2 rounded-full border border-neutral-200 text-neutral-500 hover:border-neutral-400 hover:text-neutral-900 transition-colors" data-filter="facebook-ads">Facebook ADS <span class="ml-1 opacity-50">79</span></button>
+                    <button class="filter-tab interactive-el font-mono text-[10px] tracking-[0.15em] uppercase px-4 py-2 rounded-full border border-neutral-200 text-neutral-500 hover:border-neutral-400 hover:text-neutral-900 transition-colors" data-filter="illustrator">Illustrator <span class="ml-1 opacity-50">29</span></button>
+                    <button class="filter-tab interactive-el font-mono text-[10px] tracking-[0.15em] uppercase px-4 py-2 rounded-full border border-neutral-200 text-neutral-500 hover:border-neutral-400 hover:text-neutral-900 transition-colors" data-filter="photoshop">Photoshop <span class="ml-1 opacity-50">28</span></button>
+                    <button class="filter-tab interactive-el font-mono text-[10px] tracking-[0.15em] uppercase px-4 py-2 rounded-full border border-neutral-200 text-neutral-500 hover:border-neutral-400 hover:text-neutral-900 transition-colors" data-filter="ux-ui">UX / UI <span class="ml-1 opacity-50">10</span></button>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 stagger-children">
+            <!-- Gallery grid (JS-rendered) -->
+            <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4"></div>
 
-                <!-- Project 1 -->
-                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
-                     data-slot="project-1"
-                     data-title="Brand Animation Reel"
-                     data-tag="Motion Graphics / After Effects"
-                     data-img="https://images.unsplash.com/photo-1561070791-2526af02a981?w=1400&h=1050&fit=crop&q=80">
-                    <img src="https://images.unsplash.com/photo-1561070791-2526af02a981?w=1400&h=1050&fit=crop&q=80" alt="Brand Animation Reel" class="project-thumb w-full h-full object-cover" id="img-project-1">
-                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
-                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">Motion Graphics</span>
-                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Brand Animation Reel</h3>
-                        <p class="text-neutral-400 text-xs font-light mt-1">Logo animations & brand reveal sequences</p>
-                    </div>
-                </div>
-
-                <!-- Project 2 -->
-                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
-                     data-slot="project-2"
-                     data-title="3D Visual Identity System"
-                     data-tag="3D Design / Blender / Cinema 4D"
-                     data-img="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1400&h=1050&fit=crop&q=80">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1400&h=1050&fit=crop&q=80" alt="3D Visual Identity" class="project-thumb w-full h-full object-cover" id="img-project-2">
-                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
-                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">3D Design</span>
-                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">3D Visual Identity</h3>
-                        <p class="text-neutral-400 text-xs font-light mt-1">Product visualization & 3D brand elements</p>
-                    </div>
-                </div>
-
-                <!-- Project 3 — Wide -->
-                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[2/1] md:col-span-2 fade-up"
-                     data-slot="project-3"
-                     data-title="Luxury Brand Identity System"
-                     data-tag="Branding / Visual Identity"
-                     data-img="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=1600&h=800&fit=crop&q=80">
-                    <img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=1600&h=800&fit=crop&q=80" alt="Luxury Brand Identity" class="project-thumb w-full h-full object-cover" id="img-project-3">
-                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
-                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">Branding</span>
-                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Luxury Brand Identity System</h3>
-                        <p class="text-neutral-400 text-xs font-light mt-1">Logo, color system & brand guideline document</p>
-                    </div>
-                </div>
-
-                <!-- Project 4 -->
-                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
-                     data-slot="project-4"
-                     data-title="Hospitality Web Interface"
-                     data-tag="UX/UI Design / Figma"
-                     data-img="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1400&h=1050&fit=crop&q=80">
-                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1400&h=1050&fit=crop&q=80" alt="Hospitality Web Interface" class="project-thumb w-full h-full object-cover" id="img-project-4">
-                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
-                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">UX / UI</span>
-                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Hospitality Web Interface</h3>
-                        <p class="text-neutral-400 text-xs font-light mt-1">5-star hotel website design & prototyping</p>
-                    </div>
-                </div>
-
-                <!-- Project 5 -->
-                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
-                     data-slot="project-5"
-                     data-title="Hotel Promotional Film"
-                     data-tag="Video Production / Color Grading"
-                     data-img="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1400&h=1050&fit=crop&q=80">
-                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1400&h=1050&fit=crop&q=80" alt="Hotel Promotional Film" class="project-thumb w-full h-full object-cover" id="img-project-5">
-                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
-                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">Video Production</span>
-                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Hotel Promotional Film</h3>
-                        <p class="text-neutral-400 text-xs font-light mt-1">Filming, editing & color grading</p>
-                    </div>
-                </div>
-
-                <!-- Project 6 -->
-                <div class="project-item group relative overflow-hidden rounded-lg interactive-el aspect-[4/3] fade-up"
-                     data-slot="project-6"
-                     data-title="Facebook Ad Campaign Series"
-                     data-tag="Social Media / Photoshop"
-                     data-img="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1400&h=1050&fit=crop&q=80">
-                    <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1400&h=1050&fit=crop&q=80" alt="Facebook Ad Campaign" class="project-thumb w-full h-full object-cover" id="img-project-6">
-                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8">
-                        <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-accent mb-2">Social Media</span>
-                        <h3 class="font-display text-xl md:text-2xl font-medium tracking-tight">Facebook Ad Campaign</h3>
-                        <p class="text-neutral-400 text-xs font-light mt-1">Static & animated social media creative</p>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </section>
 
@@ -830,16 +787,7 @@
             if (img) img.src = profileSrc;
         }
 
-        // Project thumbnails
-        for (let i = 1; i <= 6; i++) {
-            const src = await probe(IMG_EXTS.map(e => `assets/images/project-${i}.${e}`));
-            if (src) {
-                const imgEl = document.getElementById(`img-project-${i}`);
-                const item  = document.querySelector(`[data-slot="project-${i}"]`);
-                if (imgEl) imgEl.src = src;
-                if (item)  item.dataset.img = src;
-            }
-        }
+        // Gallery is rendered by initGallery() below
 
         // Showreel — local video file
         const showSrc = await probe(VID_EXTS.map(e => `assets/videos/showreel.${e}`));
@@ -869,6 +817,256 @@
     }
 
     // ═══════════════════════════════════════════════════════
+    //  GALLERY + FILTER + LIGHTBOX
+    // ═══════════════════════════════════════════════════════
+    const GALLERY_DATA = {
+      'facebook-ads': [
+        "assets/images/Facebook ADS/00ddf228-7625-49e1-b076-9cdcf570d6a8_rw_1200.jpg",
+        "assets/images/Facebook ADS/03aca64d-ddfe-48ff-aeea-558841f53d96_rw_1920.jpg",
+        "assets/images/Facebook ADS/0a2204aa-8f29-4292-914e-db507562e2cd_rw_1920.jpg",
+        "assets/images/Facebook ADS/0deae382-3b0a-4308-894e-b9939bb02233_rw_1200.jpg",
+        "assets/images/Facebook ADS/0e263630-f19c-4234-b770-674b9b67952f_rw_1920.jpg",
+        "assets/images/Facebook ADS/1122c236-ac89-4e07-8bfb-3bfb4f5f58c1_rw_1200.png",
+        "assets/images/Facebook ADS/11e715bb-d3b1-4d4d-b797-b6568f951cc9_rw_1200.png",
+        "assets/images/Facebook ADS/1336bada-6845-473f-b49b-167e9557df30_rw_1200.png",
+        "assets/images/Facebook ADS/134c1efd-085e-43fc-9e59-1ce92ab0faea_rw_1200.jpg",
+        "assets/images/Facebook ADS/16230d44-6edc-47c2-924a-5e75de270181_rw_1200.png",
+        "assets/images/Facebook ADS/17a1d985-9cd4-4e07-9b32-9b70fedb07a0_rw_1920.jpg",
+        "assets/images/Facebook ADS/19baaedf-df42-4a5e-ba13-7472d004597f_rw_1920.png",
+        "assets/images/Facebook ADS/23406b12-654f-435f-b746-ac985e0d84af_rw_1200.png",
+        "assets/images/Facebook ADS/262fd958-bba8-49c4-8222-4818adb642e4_rw_1920.jpg",
+        "assets/images/Facebook ADS/2b47d74c-2538-4c3a-9d79-33fa2a5e61b3_rw_1200.png",
+        "assets/images/Facebook ADS/340e2f06-7448-43b9-b877-a7e7c92b3b69_rw_1200.png",
+        "assets/images/Facebook ADS/39ee0aec-f885-49fb-b727-10c70422ab5c_rw_1200.png",
+        "assets/images/Facebook ADS/3dbd95dd-9f83-4b3c-81cf-9e0d447235c7_rw_1200.png",
+        "assets/images/Facebook ADS/45e76c72-47cc-4b51-8f04-3e0f48dae34d_rw_1920.jpg",
+        "assets/images/Facebook ADS/49b2d0a4-401f-4ff8-bb06-2aa37379e9af_rw_1920.jpg",
+        "assets/images/Facebook ADS/55ae6e25-7685-4458-b70a-e5cda7c984ab_rw_1200.jpg",
+        "assets/images/Facebook ADS/56c39668-e3a5-4ee9-ae0c-cdbc7d415596_rw_1920.jpg",
+        "assets/images/Facebook ADS/5d597a86-d708-4b9d-99af-281e04eb027d_rw_1920.jpg",
+        "assets/images/Facebook ADS/6430d562-9575-4cee-b5ca-f5a32eff2445_rw_3840.png",
+        "assets/images/Facebook ADS/65f30901-8474-4ed4-bf83-a6408350acf0_rw_1200.png",
+        "assets/images/Facebook ADS/682ea4b7-e84d-44c6-8460-78ae0f3aa122_rw_1920.jpeg",
+        "assets/images/Facebook ADS/6b2e47f3-99ac-4d41-8735-e17850b63bd5_rw_1920.jpg",
+        "assets/images/Facebook ADS/71faa081-4c57-41a9-bdbc-5527fe952246_rw_1920.jpg",
+        "assets/images/Facebook ADS/740836e0-6c90-41bc-862f-ffae43e899c3_rw_1920.png",
+        "assets/images/Facebook ADS/75384bc0-2271-4828-b1f2-eeb12e39a4cc_rw_1200.png",
+        "assets/images/Facebook ADS/7559525d-2e6e-4499-adc4-788e5460bb18_rw_1920.jpg",
+        "assets/images/Facebook ADS/7c93c711-e93a-4c5e-a7a7-f2bb1db58e83_rw_1920.png",
+        "assets/images/Facebook ADS/7feb4694-e6f5-4fb7-a3bb-fa78383b470b_rw_1920.jpg",
+        "assets/images/Facebook ADS/81a3296f-2626-4d91-af13-f8aa709030b7_rw_1200.jpg",
+        "assets/images/Facebook ADS/8603ef36-3503-47c3-9b71-efb6197fdaf0_rw_1200.jpg",
+        "assets/images/Facebook ADS/8714da93-403d-4874-81fa-70b2b7b164ff_rw_1200.png",
+        "assets/images/Facebook ADS/8a3c867a-5ada-48e0-b5ab-dfa9b6b41bc3_rw_1920.png",
+        "assets/images/Facebook ADS/8d81df59-07a4-4783-bd38-d38520506542_rw_1920.png",
+        "assets/images/Facebook ADS/8e681a32-19d3-430c-8360-87f80f9f220f_rw_1200.jpg",
+        "assets/images/Facebook ADS/8f446179-d9b2-4b83-b561-7c5db2eb0727_rw_1200.png",
+        "assets/images/Facebook ADS/9262de61-0729-4417-9fd4-d56f36a94d27_rw_1200.png",
+        "assets/images/Facebook ADS/97c672b6-3870-4f9e-a285-627322f86f5d_rw_1920.png",
+        "assets/images/Facebook ADS/99fff25e-147b-453e-8b4d-d32d6de727e0_rw_1200.png",
+        "assets/images/Facebook ADS/9a6b1c4c-e9c7-46c1-9026-ab07c6ed789c_rw_1920.jpg",
+        "assets/images/Facebook ADS/9fcaf5c2-ac4b-4cb1-becb-9514a882e81c_rw_1920.png",
+        "assets/images/Facebook ADS/a1946ffe-ec95-4c5c-a24e-8caf5f7ac18f_rw_1920.png",
+        "assets/images/Facebook ADS/a28b9fa8-ea1b-4b65-b6e8-13ad8c60c0c2_rw_1920.jpg",
+        "assets/images/Facebook ADS/a4680fbc-b629-47ee-b0f9-7c1016b1be35_rw_1920.jpg",
+        "assets/images/Facebook ADS/a665d12c-0d0a-4481-963b-7bee39fdb11c_rw_1200.png",
+        "assets/images/Facebook ADS/a705668a-4391-4611-85d1-4b75d26b2b4c_rw_1200.jpg",
+        "assets/images/Facebook ADS/a72040f9-2c1c-4aaf-b5b7-4e6e2d64254d_rw_1200.jpg",
+        "assets/images/Facebook ADS/acea4ac0-a496-49fe-b782-9c17e2845cdf_rw_1920.png",
+        "assets/images/Facebook ADS/b1f90ed2-7a08-4518-874e-839c340af550_rw_1200.jpg",
+        "assets/images/Facebook ADS/b83523f3-2267-491e-9866-281fe993d151_rw_1920.png",
+        "assets/images/Facebook ADS/be29b108-7bed-4df7-b556-10da688129c8_rw_1200.png",
+        "assets/images/Facebook ADS/c1bc525d-b702-4954-ab39-e9bfa2de0267_rw_1200.jpg",
+        "assets/images/Facebook ADS/c6e12c85-a4da-4a79-a9f4-a9be861d9f04_rw_1920.jpeg",
+        "assets/images/Facebook ADS/c8d1aac1-d804-4ff9-81b6-58b99f92d9ea_rw_1200.jpg",
+        "assets/images/Facebook ADS/cf1f64be-bb6e-45c9-9d28-8f717bd58637_rw_1200.jpg",
+        "assets/images/Facebook ADS/cf7a5e3d-ce90-41aa-ac75-c1611c890152_rw_1920.jpg",
+        "assets/images/Facebook ADS/d03fa968-025c-4257-92ef-672144d30fcb_rw_1920.jpg",
+        "assets/images/Facebook ADS/d134714c-cfcb-48cf-a809-34f61b02e79c_rw_1920.jpg",
+        "assets/images/Facebook ADS/d55ba7aa-372a-4fd8-8e98-55fd5bb550d0_rw_1920.jpg",
+        "assets/images/Facebook ADS/d5b5dfb5-0c5f-45db-9220-705698bfb948_rw_1200.jpg",
+        "assets/images/Facebook ADS/d72b20ec-37a3-45bc-ad72-09af89acd2db_rw_1200.png",
+        "assets/images/Facebook ADS/e049e7b2-ab20-4619-8d43-656b17d326a6_rw_1200.jpg",
+        "assets/images/Facebook ADS/e1afa85e-2c8d-4c5f-bc8f-910a144a279e_rw_1920.png",
+        "assets/images/Facebook ADS/e38e341d-886a-404f-a9cd-80735f8dc710_rw_1920.jpeg",
+        "assets/images/Facebook ADS/e43c45ff-a121-4349-9780-a8be86cf50a7_rw_1200.jpg",
+        "assets/images/Facebook ADS/e8f6384c-b26f-4267-9a54-80debc0bc46d_rw_1200.jpg",
+        "assets/images/Facebook ADS/e929dee2-c8a2-48b1-8623-60f2f291d0d9_rw_1920.jpg",
+        "assets/images/Facebook ADS/eab16c2c-148f-42a7-af6a-a5b7b9a2dffa_rw_1200.png",
+        "assets/images/Facebook ADS/eab70d5b-e25f-406f-b551-30b526f537fe_rw_1920.jpg",
+        "assets/images/Facebook ADS/eb862f7b-f7b5-4a9a-b2fd-62eebc2250a4_rw_1920.jpg",
+        "assets/images/Facebook ADS/f3870aea-21d4-4219-b6cd-d2080a567799_rw_1200.jpg",
+        "assets/images/Facebook ADS/f595bcda-7ee9-40cb-b77e-350dab5eb368_rw_1200.jpg",
+        "assets/images/Facebook ADS/f8c4b3c0-0680-44b1-80a4-457f6cfc010f_rw_1920.png",
+        "assets/images/Facebook ADS/fa8de81c-51aa-4a28-b12d-636a3b51a641_rw_1920.jpg",
+        "assets/images/Facebook ADS/fdd2faa3-44a3-4456-98e7-cbc87f837141_rw_1920.jpg"
+      ],
+      'illustrator': [
+        "assets/images/Illustrator/0e27373d-c26a-4c0e-9ea2-318be5964171_rw_3840.jpg",
+        "assets/images/Illustrator/24c0f8e4-5ea1-4199-8f7e-0e69a5fc7d51_rw_1920.jpeg",
+        "assets/images/Illustrator/31d7045c-a38f-442a-b948-a4d2b059d30f_rw_1920.jpg",
+        "assets/images/Illustrator/3761514c-ffc6-4cfb-8e2d-46d00102f3e3_rw_3840.png",
+        "assets/images/Illustrator/3c33a4d2-97bc-4253-9657-125365134da7_rw_1200.jpeg",
+        "assets/images/Illustrator/3e43250b-fbf6-4746-a025-3b1bdd970736_rw_1920.jpg",
+        "assets/images/Illustrator/40e1308d-5e5b-4ade-84e3-2544a523f3f3_rw_1920.png",
+        "assets/images/Illustrator/4a9a1a4f-7020-4e9d-b805-1756f9073182_rw_1920.jpg",
+        "assets/images/Illustrator/4b058eb0-e2aa-4003-97e8-699338ad4f06_rw_1920.png",
+        "assets/images/Illustrator/5f4d401e-4ebc-44aa-bef6-2e7a5421bde1_rw_1920.png",
+        "assets/images/Illustrator/62253555-d97a-49a7-a885-008ce8c39ee6_rw_1920.png",
+        "assets/images/Illustrator/677df587-f19b-4c22-8293-c3fd6e40f74b_rw_1920.png",
+        "assets/images/Illustrator/7c8cb125-8c76-4669-9496-7dfb6e17fe62_rw_1920.jpg",
+        "assets/images/Illustrator/8da4e21f-7d00-49fa-81e2-ab861dcaf051_rw_1920.jpg",
+        "assets/images/Illustrator/91477859-a676-441a-9c4c-04bd776f023a_rw_1920.jpeg",
+        "assets/images/Illustrator/9e098c7b-f4d0-48fd-96cf-83a297e9a8f5_rw_1920.jpg",
+        "assets/images/Illustrator/a5bc7f68-d4fb-4bdb-a3ef-5ef1cec7858c_rw_1920.jpg",
+        "assets/images/Illustrator/a5ee6b64-f2ea-4ba1-b622-ee7ce8f5cadd_rw_1200.png",
+        "assets/images/Illustrator/af88850d-bfc9-4ca3-86bf-575c0f5e684b_rw_1920.jpg",
+        "assets/images/Illustrator/b12a69db-530e-4080-a324-58b958ca9f4a_rw_600.jpg",
+        "assets/images/Illustrator/b1e92186-f129-4c78-b5f9-a8045f6ba2fa_rw_3840.png",
+        "assets/images/Illustrator/b5114400-a294-4f83-8166-3c2917aa91d3_rw_3840.png",
+        "assets/images/Illustrator/cadde7c8-6d2e-486c-a7de-a8da065fc764_rw_1920.jpg",
+        "assets/images/Illustrator/d035912b-cc1a-4513-8ae9-81220795a27b_rw_1920.jpeg",
+        "assets/images/Illustrator/e098a860-a613-489b-bbca-ee3c0df01c19_rw_3840.png",
+        "assets/images/Illustrator/e40e1ea9-09da-485a-b323-a616803dc12a_rw_1200.png",
+        "assets/images/Illustrator/e66a0eb4-fada-4df0-aee2-e6a0a801fa14_rw_3840.jpg",
+        "assets/images/Illustrator/f278c0ec-2138-44ef-a2f3-99ea2ea3d32e_rw_1920.jpeg",
+        "assets/images/Illustrator/f6fa1b1c-f8a8-42e6-bfde-50a174e6a696_rw_1920.png"
+      ],
+      'photoshop': [
+        "assets/images/Photoshop/041941dc-ada5-4719-b362-d051e5a83e96_rw_1200.jpg",
+        "assets/images/Photoshop/11679add-d47f-4505-a8e4-4ada0bf40068_rw_1920.jpeg",
+        "assets/images/Photoshop/285a3a2c-4531-42a9-9aa7-a441e5f75c59_rw_3840.jpg",
+        "assets/images/Photoshop/3795b674-fe31-4f38-99b9-21a0acb638c9_rw_1920.png",
+        "assets/images/Photoshop/425b7223-fde7-4b76-a369-3becee8f83b9_rw_1920.jpeg",
+        "assets/images/Photoshop/48ea49ac-0019-45a2-91d7-dbe89f1fad79_rw_1920.png",
+        "assets/images/Photoshop/4d1cc746-1958-4bdd-a863-756c7a3a2056_rw_1920.jpg",
+        "assets/images/Photoshop/523cf054-a265-4d0c-8d3c-46554a4670ea_rw_1920.png",
+        "assets/images/Photoshop/5449fc68-6aa0-4a40-a7a6-ce2284ffb48f_rw_3840.png",
+        "assets/images/Photoshop/59c1db1e-c845-4f33-aeb0-4a73fb08266b_rw_1920.jpeg",
+        "assets/images/Photoshop/604594f2-6609-4b0b-b188-6abd18279efd_rw_1920.jpg",
+        "assets/images/Photoshop/64f88fc0-871d-4aee-a6b6-44cae50a15a5_rw_1920.png",
+        "assets/images/Photoshop/6f279e00-67a3-4979-8400-c31657abd491_rw_1920.jpeg",
+        "assets/images/Photoshop/72270a11-0d8d-45db-8624-08e665463665_rw_1920.jpeg",
+        "assets/images/Photoshop/7a35e1f0-de2d-487d-b822-02660d39d54d_rw_3840.png",
+        "assets/images/Photoshop/7f4c1a84-e2a5-4764-bcd0-24f7fb528812_rw_1920.jpg",
+        "assets/images/Photoshop/8bc2d654-1171-4d83-925d-bdf7cbc374b6_rw_1920.png",
+        "assets/images/Photoshop/91fd7d25-da9c-4ee6-bd77-c084af61df0c_rw_1920.jpg",
+        "assets/images/Photoshop/95c59ecd-b3a8-456a-ac71-3833fa893242_rw_1920.jpg",
+        "assets/images/Photoshop/ab133607-2493-459c-9203-5350f43e2f68_rw_600.jpg",
+        "assets/images/Photoshop/b470b3bc-dbd2-444c-a5ea-a2e30c12b82a_rw_1920.jpg",
+        "assets/images/Photoshop/bb92f5a7-e016-4cfe-82ff-df2c938199da_rw_1920.jpg",
+        "assets/images/Photoshop/cc80a88b-d97e-4cd3-a35b-8dc0251df3e5_rw_1920.jpeg",
+        "assets/images/Photoshop/d664fe3e-9fe3-4ddf-a750-121d6d3e6443_rw_1200.jpg",
+        "assets/images/Photoshop/d8460d3d-51b0-467c-9d6f-41e21c29deb5_rw_1920.jpeg",
+        "assets/images/Photoshop/dd9f8fad-2629-471c-a5aa-2744f3855c6a_rw_1200.jpg",
+        "assets/images/Photoshop/e76c4e2a-58cc-4f1c-959b-a49cc07f1c90_rw_1920.jpeg",
+        "assets/images/Photoshop/f448381f-ab0c-4330-a8d1-2d9d8b2105cc_rw_1920.jpeg"
+      ],
+      'ux-ui': [
+        "assets/images/UX:UI - Website/02006c75-f739-4235-b8c3-5bde66cd8ddf_rw_1200.png",
+        "assets/images/UX:UI - Website/12c4b6ca-0c12-449e-90e6-3ac5bed49da6_rw_1920.jpeg",
+        "assets/images/UX:UI - Website/1eb141fd-ff05-4f81-9365-9c1866f25e3e_rw_1920.png",
+        "assets/images/UX:UI - Website/7d7dc0de-7cb3-4160-b7a5-0eca7b1fd694_rw_1200.png",
+        "assets/images/UX:UI - Website/9d25061c-596a-4e89-90ce-e45080ea0a0b_rw_1200.png",
+        "assets/images/UX:UI - Website/b95bdabe-0a81-4f39-967a-d0eae35c2668_rw_1200.png",
+        "assets/images/UX:UI - Website/bdde8c95-056d-4e7f-b9a3-dfed3c403fd2_rw_1920.png",
+        "assets/images/UX:UI - Website/d3c244ae-9498-49bb-9257-9b4be4557290_rw_1200.png",
+        "assets/images/UX:UI - Website/dc10b6c8-6772-4774-ae31-069209135623_rw_1200.png",
+        "assets/images/UX:UI - Website/df653ad4-2260-4a96-929d-f795f8d202ae_rw_1200.png"
+      ]
+    };
+
+    // Build flat list tagged with category
+    const ALL_ITEMS = [];
+    for (const [cat, files] of Object.entries(GALLERY_DATA)) {
+      files.forEach(src => ALL_ITEMS.push({ src, cat }));
+    }
+
+    let currentFilter = 'all';
+    let lightboxIndex = 0;
+    let lightboxItems = [];
+
+    function filteredItems() {
+      return currentFilter === 'all' ? ALL_ITEMS : ALL_ITEMS.filter(i => i.cat === currentFilter);
+    }
+
+    function catLabel(cat) {
+      return { 'facebook-ads': 'Facebook ADS', 'illustrator': 'Illustrator', 'photoshop': 'Photoshop', 'ux-ui': 'UX / UI' }[cat] || cat;
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      if (!grid) return;
+      const items = filteredItems();
+      lightboxItems = items;
+      grid.innerHTML = '';
+      items.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'gallery-item project-item group relative overflow-hidden rounded-lg interactive-el cursor-pointer aspect-square bg-neutral-100';
+        div.dataset.idx = idx;
+        div.innerHTML = `
+          <img src="${item.src}" alt="${catLabel(item.cat)}" loading="lazy"
+               class="project-thumb w-full h-full object-cover">
+          <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-3">
+            <span class="font-mono text-[9px] tracking-[0.15em] uppercase text-accent">${catLabel(item.cat)}</span>
+          </div>`;
+        div.addEventListener('click', () => openLightbox(idx));
+        grid.appendChild(div);
+      });
+      // Re-attach cursor hover for new items
+      grid.querySelectorAll('.project-item').forEach(el => {
+        el.addEventListener('mouseenter', () => { ring.classList.add('img-hover'); ring.classList.remove('hover'); });
+        el.addEventListener('mouseleave', () => ring.classList.remove('img-hover'));
+      });
+    }
+
+    // Filter tabs
+    document.getElementById('filterTabs')?.addEventListener('click', e => {
+      const btn = e.target.closest('.filter-tab');
+      if (!btn) return;
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      const grid = document.getElementById('galleryGrid');
+      if (grid) { grid.classList.add('fading'); setTimeout(() => { renderGallery(); grid.classList.remove('fading'); }, 200); }
+    });
+
+    // Lightbox
+    function openLightbox(idx) {
+      lightboxIndex = idx;
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      if (!lb || !img) return;
+      img.src = lightboxItems[idx].src;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      if (lb) lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function lightboxNav(dir) {
+      lightboxIndex = (lightboxIndex + dir + lightboxItems.length) % lightboxItems.length;
+      const img = document.getElementById('lightboxImg');
+      if (img) img.src = lightboxItems[lightboxIndex].src;
+    }
+    document.getElementById('lightboxClose')?.addEventListener('click', closeLightbox);
+    document.getElementById('lightboxPrev')?.addEventListener('click', () => lightboxNav(-1));
+    document.getElementById('lightboxNext')?.addEventListener('click', () => lightboxNav(1));
+    document.getElementById('lightbox')?.addEventListener('click', e => { if (e.target.id === 'lightbox') closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('lightbox')?.classList.contains('open')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') lightboxNav(-1);
+        if (e.key === 'ArrowRight') lightboxNav(1);
+      }
+    });
+
+    // Init
+    renderGallery();
+
+    // ═══════════════════════════════════════════════════════
     //  CUSTOM CURSOR
     // ═══════════════════════════════════════════════════════
     const dot = document.getElementById('cursorDot');
@@ -892,10 +1090,7 @@
         el.addEventListener('mouseenter', () => ring.classList.add('hover'));
         el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
     });
-    document.querySelectorAll('.project-item').forEach(el => {
-        el.addEventListener('mouseenter', () => { ring.classList.add('img-hover'); ring.classList.remove('hover'); });
-        el.addEventListener('mouseleave', () => ring.classList.remove('img-hover'));
-    });
+    // Gallery items get cursor handlers via renderGallery()
 
     // ═══════════════════════════════════════════════════════
     //  HERO ANIMATIONS

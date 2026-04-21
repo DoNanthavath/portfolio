@@ -173,7 +173,8 @@ const server = http.createServer((req, res) => {
   }
 
   // ── Static file serving ─────────────────────────────
-  let filePath = path.join(ROOT, urlPath === '/' ? 'index.html' : urlPath);
+  const decodedPath = urlPath === '/' ? 'index.html' : decodeURIComponent(urlPath);
+  let filePath = path.join(ROOT, decodedPath);
   const ext    = path.extname(filePath).toLowerCase();
   const mime   = MIME[ext] || 'application/octet-stream';
 
